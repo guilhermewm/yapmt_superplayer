@@ -1,0 +1,27 @@
+{
+  "name": "yapmt_superplayer",
+  "version": "1.0.0",
+  "description": "Superplayer",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test",
+    "dev": "nodemon app.js",
+    "start": "npm run dev"
+  },
+  "keywords": [
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "Guilherme Webber Mendes",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dateformat": "^3.0.3",
+    "express": "^4.17.1",
+    "helmet": "^3.19.0",
+    "method-override": "^3.0.0",
+    "mm-node-logger": "0.0.1",
+    "mongoose": "^5.6.5",
+    "morgan": "^1.9.1"
+  }
+}
