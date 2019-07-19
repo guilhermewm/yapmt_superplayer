@@ -1,5 +1,5 @@
 {
-  "name": "yapmt_superplayer",
+  "name": "yapmt_superplayer_backend",
   "version": "1.0.0",
   "description": "Superplayer",
   "main": "app.js",
