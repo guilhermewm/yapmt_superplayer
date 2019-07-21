@@ -1,9 +1,6 @@
 ## Instalação
 
-- Baixe, instale o Angular
 - Baixe o NPM: http://blog.npmjs.org/post/85484771375/how-to-install-npm
-
-## Angular
 - npm install -g @angular/cli
 
 ## Execução  
