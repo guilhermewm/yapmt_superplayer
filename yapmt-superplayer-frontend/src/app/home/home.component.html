@@ -1,3 +1,55 @@
-<div class="principal">
-  fasfasfsaf
-</div>
+<mat-sidenav-container *ngIf="projects" class="example-container">
+  <mat-sidenav opened mode="side" class="my-sidenav">
+      <div class="text-type1">
+        Projects
+      </div>
+      <mat-list role="list">
+        <mat-list-item *ngFor="let project of projects" role="listitem" style="height: 40px !important;">
+          <button mat-button class="text-type2 button-project" (click)="openProject(project.name)">
+            {{project.name}}
+          </button>
+        </mat-list-item>
+      </mat-list>
+      <button mat-button class="text-type2 text-type-link" (click)="openDialog()">
+        + New Project
+      </button>
+  </mat-sidenav>
+  <div class="margins-side">
+    <div class="header-project">
+      <div class="text-type1 margin-adjust">
+          {{projectSelected.name}}
+      </div>
+      <div style="display: flex">
+        <div class="text-type2" *ngIf="projectSelected.statusFinal">
+            {{projectSelected.statusFinal}}
+        </div>
+        <button mat-button class="text-type2 text-type-link" (click)="openDialogConfirm()">
+          Delete project
+        </button>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-selection-list *ngIf="projectSelected.tasks[0]" #task (selectionChange)="onSelection($event, task.selectedOptions)">
+        <div *ngFor="let task of sortTasks">
+          <mat-list-option *ngIf="task.completed" class="task color-grey"  [value]='task._id' selected="{{task.completed}}" disabled="{{task.completed}}">
+            <div class="task-completed">
+              <div>{{task.description}}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style="font-size: 15px;">@{{task.owner}}  {{task.due_date_string}}</div>    
+            </div>  
+          </mat-list-option> 
+          <mat-list-option *ngIf="task.status=='late'" class="task" style="color: red"  [value]='task._id' selected="false" disabled="true">
+            <div class="task-normal">
+              <div>{{task.description}}</div>  <div class="task-owner">@{{task.owner}}  {{task.due_date_string}}</div>    
+            </div>  
+          </mat-list-option>
+          <mat-list-option *ngIf="task.status=='in time' && !task.completed" class="task" [value]='task._id' selected="false" disabled="false">
+            <div class="task-normal">
+              <div style="font-weight: bold;">{{task.description}}</div>  <div class="task-owner color-grey" >@{{task.owner}}  {{task.due_date_string}}</div>    
+            </div>  
+          </mat-list-option>
+        </div>         
+    </mat-selection-list>
+    <button mat-button class="text-type2 text-type-link" (click)="openDialogTask()">
+      + Add Task
+    </button>
+  </div>
+</mat-sidenav-container>

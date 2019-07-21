@@ -8,12 +8,13 @@ router.get('/',function(req, res){
 })
 
 router.get("/projects", ProjectController.getProjects);
+router.get("/project/:name", ProjectController.getProject);
 
 router.post("/createProject", ProjectController.createProject);
 router.post("/createTask", ProjectController.createTask);
 router.post("/updateTask", ProjectController.completeTask);
 
-router.delete("/deleteProject", ProjectController.deleteProject);
+router.delete("/deleteProject/:id", ProjectController.deleteProject);
 
 
 

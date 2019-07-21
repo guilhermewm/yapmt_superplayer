@@ -10,6 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectService } from './project.service';
+import { DialogProject } from './home/dialogProject';
+import { DialogTask } from './home/dialogTask';
+import { DialogConfirm } from './home/dialogConfirm';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -20,9 +23,12 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    DialogProject,
+    DialogTask,
+    DialogConfirm
   ],
-  entryComponents: [HomeComponent],
+  entryComponents: [HomeComponent, DialogProject, DialogTask, DialogConfirm],
   imports: [
     ReactiveFormsModule,
     FormsModule,
@@ -38,7 +44,7 @@ const routes: Routes = [
   providers: [
     HomeComponent,
     AppSettings,
-    ProjectService
+    ProjectService,
   ],
   bootstrap: [AppComponent]
 })

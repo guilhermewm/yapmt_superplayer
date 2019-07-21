@@ -9,7 +9,27 @@ class ProjectController {
 			if (!resultProject){
 				return res.status(401).json({ message: "Erro" });
 			}			
-			return res.status(200).json(newProjects);
+			return res.status(200).json(resultProject);
+		} catch (err){
+			if(err){
+				return res.status(401).json({ message: err.reason.message });
+			}
+			return res.status(401).json({ message: "Erro"});
+		}		
+	}
+
+	async getProject(req, res) {
+		const { name } = req.params;
+		console.log(name)
+		if (!name){
+			return res.status(401).json({ message: "Erro" });
+		}
+		try{
+			const resultProject = await Project.find({"name": name});		
+			if (!resultProject){
+				return res.status(401).json({ message: "Erro" });
+			}			
+			return res.status(200).json(resultProject[0]);
 		} catch (err){
 			if(err){
 				return res.status(401).json({ message: err.reason.message });
@@ -20,10 +40,10 @@ class ProjectController {
 
 
 	async createProject(req, res) {
-			const { name } = req.body;
-			if (!name){
-				return res.status(401).json({ message: "Erro" });
-			}			
+		const { name } = req.body;
+		if (!name){
+			return res.status(401).json({ message: "Erro" });
+		}			
 		try{
 			const project = await Project.find({'name': name});
 			if (project[0]){
@@ -45,11 +65,12 @@ class ProjectController {
 
 	async completeTask(req, res) {
 		const { _id, name } = req.body;
+		console.log(req.body)
 		if (!_id || !name) {
 			return res.status(401).json({ message: "Erro" });
 		}
 		try {
-			const resultTask = await Project.update({ 'name': name, 'tasks.id': _id }, { $set: { 'completed': true, 'status': 'completed' } });
+			const resultTask = await Project.update({ 'name': name, 'tasks._id': _id}, { $set: { 'tasks.$.status': "completed", 'tasks.$.completed': true }});
 			if (!resultTask){
 				return res.status(401).json({ message: "Erro" });
 			}
@@ -63,16 +84,16 @@ class ProjectController {
 	}
 
 	async createTask(req, res) {
+		console.log(req.body)
 		const { task, name } = req.body;
 		if (!task || !task.description || !task.owner || !task.due_date || !name){
 			return res.status(401).json({ message: "Erro" });
 		}
-		// Temporario		
-		task.due_date = new Date();	
 		try {
-			let date = dateFormat(new Date(), "dd/mm");
-			let taskDate = dateFormat(task.due_date, "dd/mm");
+			let date = dateFormat(new Date(), "mm/dd");
+			let taskDate = dateFormat(task.due_date, "mm/dd");
 			task.due_date_string = taskDate;
+			console.log(taskDate)
 			if((new Date(task.due_date).getMonth() == new Date().getMonth())){
 				if((new Date(task.due_date).getDate()-new Date().getDate()) == -1){
 					task.due_date_string = "Yesterday";
@@ -90,7 +111,7 @@ class ProjectController {
 			}
 			if (taskDate < date && task.status != "completed") {
 				task.status = "late";
-			} else if (taskDate >= date){
+			} else if (taskDate >= date && task.status != "completed"){
 				task.status = "in time";
 			}
 			const resultProject = await Project.update({ 'name': name }, { $push: { 'tasks': task } });
@@ -107,16 +128,16 @@ class ProjectController {
 	}
 
 	async deleteProject(req, res) {
-		const { name } = req.body;
-		if (!name){
+		const { id } = req.params;
+		if (!id){
 			return res.status(401).json({ message: "Erro" });
 		}
-		const project = await Project.find({'name': name});
+		const project = await Project.find({'_id': id});
 		if (!project[0]){
 			return res.status(401).json({ message: "Projeto inexistente" });
 		}
 		try {			
-			const resultProject = await Project.findOneAndRemove({'name': name});
+			const resultProject = await Project.findOneAndRemove({'_id': id});
 			if (!resultProject){
 				return res.status(401).json({ message: "Erro" });
 			}

@@ -11,8 +11,8 @@ class Timer {
                     let tasksToBeUpdated = [];	
                     let flagTask = false;
                     project.tasks.forEach(task => {
-                        let date = dateFormat(new Date(), "dd/mm");
-                        let taskDate = dateFormat(task.due_date, "dd/mm");
+                        let date = dateFormat(new Date(), "mm/dd");
+                        let taskDate = dateFormat(task.due_date, "mm/dd");
                         if((new Date(task.due_date).getMonth() == new Date().getMonth())){
                             if((new Date(task.due_date).getDate()-new Date().getDate()) == -1 && task.due_date_string != "Yesterday"){
                                 task.due_date_string = "Yesterday";
